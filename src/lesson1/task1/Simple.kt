@@ -145,7 +145,7 @@ fun accountInThreeYears(initial: Int, percent: Int): Double  {
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int {
-    val firstNuber = (number / 100) // Получили х** целочисленным делением.
+    val firstNuber = (number / 100) // Получили х** целочисленным делением..
     val secondNuber =((number - (firstNuber*100)) / 10) * 10 // Получили *x* умноженное на 10
     val thirdNiber =(number % 10) * 100 // получили **х умноженное на 100
     val perNumber = thirdNiber + secondNuber + firstNuber // сложили
