@@ -51,7 +51,7 @@ fun main(args: Array<String>) {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
-fun seconds(hours: Int, minutes: Int, seconds: Int): Int  {
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
     val chas = hours * 3600 // Переводим количество часов в секунды
     val min = minutes * 60  // Переводим количество минут в секунды
     val sec = chas + min + seconds // складываем секунды
@@ -90,11 +90,8 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
-    val line = sqrt((sqr((x1 - x2)) + sqr((y1 - y2)))) // вычисление длины отрезка по двум точкам согласно формуле
-    return line  // результат
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((sqr((x1 - x2)) + sqr((y1 - y2))))
 
-}
 
 /**
  * Простая
@@ -130,12 +127,10 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double  {
-    val allPercent =  percent / 100.0
-    val firstYear = initial + (allPercent * initial)
-    val secondYear = firstYear + (firstYear * allPercent)
-    val thirdYear = secondYear + (secondYear * allPercent)
-    return thirdYear
+fun accountInThreeYears(initial: Int, percent: Int): Double {
+    val allPercent = percent / 100.0 + 1
+    val allMoney = pow(allPercent, 3.0) * initial
+    return allMoney
 }
 
 /**
@@ -146,8 +141,8 @@ fun accountInThreeYears(initial: Int, percent: Int): Double  {
  */
 fun numberRevert(number: Int): Int {
     val firstNuber = (number / 100) // Получили х** целочисленным делением..
-    val secondNuber =((number - (firstNuber*100)) / 10) * 10 // Получили *x* умноженное на 10
-    val thirdNiber =(number % 10) * 100 // получили **х умноженное на 100
+    val secondNuber = ((number - (firstNuber*100)) / 10) * 10 // Получили *x* умноженное на 10
+    val thirdNiber = (number % 10) * 100 // получили **х умноженное на 100
     val perNumber = thirdNiber + secondNuber + firstNuber // сложили
     return perNumber // результат
 }
