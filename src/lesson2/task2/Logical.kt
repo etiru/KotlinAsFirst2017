@@ -24,7 +24,7 @@ fun isNumberHappy(number: Int): Boolean =
  * a = number % 10.0   4 цифра
  * b = ((number % 100.0) - a) / 10.0  3 цифра
  * c = ((number % 1000.0) - b) / 100.0 2 цифра
- * d = number / 1000 1 цифра
+ * d = number / 1000 1 цифра.
  */
 
 /**
