@@ -53,7 +53,7 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val s = (t1 * v1 + t2 * v2 + t3 * v3)   //весь путь
+    val s = (t1 * v1 + t2 * v2 + t3 * v3)   //весь путь.
     val halfS = s / 2                       // половина пути
     val s1 = t1 * v1                        // путь первого участка
     val s2 = t2 * v2                        // путь второго участка
