@@ -9,7 +9,7 @@ package lesson3.task1
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -60,7 +60,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var sum = 0
+    var n = n
+    for (i in 0..n){
+        if (n / 10 > 1)
+            sum += 1
+        n /= 10
+    }
+    return sum
+}
 
 /**
  * Простая
@@ -76,7 +85,18 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var minV = 1
+    var x = m
+    if (m < n)
+
+    for (i in n..1){
+        x -=1
+        if ((m % x == 0) && (n % x == 0))
+            minV = x
+    }
+    return minV
+}
 
 /**
  * Простая
@@ -169,4 +189,6 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    TODO()
+}

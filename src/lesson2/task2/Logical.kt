@@ -2,6 +2,7 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import java.lang.Math.*
 
 /**
  * Пример
@@ -19,7 +20,8 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  */
 fun isNumberHappy(number: Int): Boolean =
         ((number % 10) + (((number % 100) - (number % 10)) / 10) ==
-                (((number % 1000) - (((number % 100) - (number % 10)) / 10)) / 100) + (number / 1000))
+                (((number % 1000) - (((number % 100) - (number % 10)) / 10))
+                        / 100) + (number / 1000))
 /**
  * a = number % 10.0   4 цифра
  * b = ((number % 100.0) - a) / 10.0  3 цифра
@@ -35,7 +37,8 @@ fun isNumberHappy(number: Int): Boolean =
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
-        ((x1 == x2) || (y1 == y2) || ((y1 - x1) == (y2 - x2)) || ((y1 + x1) == (y2 + x2)))
+        (x1 == x2) || (y1 == y2) || ((y1 - x1) == (y2 - x2))
+                || ((y1 + x1) == (y2 + x2))
 
 /**
  * Средняя
@@ -46,7 +49,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean =
-        ((Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) + r1) <= r2)
+        ((sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) + r1) <= r2)
 
 /**
  * Средняя
@@ -58,5 +61,6 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
-        ((a <= r) && (b <= s)) || ((a <= s) && (b <= r)) || ((a <= r) && (c <= s)) || ((a <= s) && (c <= r)) ||
-                ((b <= r) && (c <= s)) || ((b <= s) && (c <= r))
+        ((a <= r) && (b <= s)) || ((a <= s) && (b <= r))
+                || ((a <= r) && (c <= s)) || ((a <= s) && (c <= r))
+                    || ((b <= r) && (c <= s)) || ((b <= s) && (c <= r))

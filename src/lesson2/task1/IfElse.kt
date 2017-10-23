@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -35,12 +36,16 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    val a = age % 10.0
-    val b = age % 100.0
-    if ((a == 1.0 || b == 1.0) && (age != 11 && age != 111)) return "$age год"
-    if ((a in 2..4 || b in 2..4) && ((age !in 12..14) && (age !in 112..114))) return "$age года"
-    if (a == 0.0 || a in 5..9 || b == 0.0 || b in 5..9 || (age in 11..14) || (age in 111..114)) return "$age лет"
-    return "$age error"
+    val a = age % 10
+    val b = age % 100
+    if ((a == 1 || b == 1) && (age != 11 && age != 111)) return "$age год"
+    return if ((a in 2..4 || b in 2..4) &&
+            ((age !in 12..14) && (age !in 112..114)))
+        "$age года" else "$age лет"
+    /**  if (a == 0 || a in 5..9 || b == 0 || b in 5..9 || (age in 11..14) ||
+     *(age in 111..114)) return "$age лет"
+     *return "$age error"
+     */
 }
 
 /**
@@ -57,7 +62,8 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val halfS = s / 2                       // половина пути
     val s1 = t1 * v1                        // путь первого участка
     val s2 = t2 * v2                        // путь второго участка
-    if (halfS <= s1){
+
+    if (halfS <= s1) {
         val t = t1 - ((s1 - halfS) / v1)
         return (t)
     }
@@ -65,13 +71,9 @@ fun timeForHalfWay(t1: Double, v1: Double,
         val t = t1 + (t2 - (((s1 + s2) - halfS) / v2))
         return (t)
     }
-    if (halfS < s) {
-        val t = t1 + t2 + (t3 - ((s - halfS) / v3))
-        return (t)
-    }
-    return Double.NaN
+    val t = t1 + t2 + (t3 - ((halfS / v3)))
+    return (t)
 }
-
 
 
 /**
@@ -86,10 +88,11 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)) return 3
-    if (kingX == rookX2 || kingY == rookY2) return 2
-    if (kingX == rookX1 || kingY == rookY1) return 1
-    return 0
+    val sKx = (kingX == rookX2 || kingY == rookY2) //Угроза от первой ладьи
+    val sKy = (kingX == rookX1 || kingY == rookY1) // Угроза от второй ладьи
+    if (sKy && sKx) return 3
+    if (sKx) return 2
+    return if (sKy) 1 else 0
 }
 
 /**
@@ -112,6 +115,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     if (kingX == rookX || kingY == rookY) return 1
     return 0
 }
+
 /**
  * Простая
  *
@@ -121,30 +125,33 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val cMAX = max(max(a , b) , c) // максимальное число
+    val cMax = max(max(a, b), c) // максимальное число
     val a1: Double // первое число
     val b1: Double // второе число
-    when (cMAX){
-       a -> {
-           a1 = b
-           b1 = c
-       }
-       b -> {
-           a1 = a
-           b1 = c
-       }
-       else -> {
-           a1 = a
-           b1 = b
-       }
+    when (cMax) {
+        a -> {
+            a1 = b
+            b1 = c
+        }
+        b -> {
+            a1 = a
+            b1 = c
+        }
+        else -> {
+            a1 = a
+            b1 = b
+        }
     }
-    if (a1 + b1 > cMAX && a1 + cMAX > b1 && cMAX + b1 > a1) {     // если треугольник существует
-        if (a1 * a1 + b1 * b1 < cMAX * cMAX) return 2
-        if (a1 * a1 + b1 * b1 > cMAX * cMAX) return 0
-        if (a1 * a1 + b1 * b1 == cMAX * cMAX) return 1
+    if (a1 + b1 > cMax && a1 + cMax > b1 && cMax + b1 > a1) {     // если треугольник существует
+        val twoSides = a1 * a1 + b1 * b1
+        val thirdSide = cMax * cMax
+        if (twoSides < thirdSide) return 2
+        if (twoSides > thirdSide) return 0
+        if (twoSides == thirdSide) return 1
     }
     return -1
 }
+
 /**
  * Средняя
  *
@@ -155,14 +162,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     if (d > b) {
-        if (b < c && c <= d) return -1
-        if (a <= c && c <= b) return (b - c)
+        if (c in a..b) return (b - c)
         if (c < a) return (b - a)
-    return -1
     }
-    if (a <= d && d <= b) {
-        if (a <= c && c <= d) return (d - c)
+    if (d in a..b) {
+        if (c in a..d) return (d - c)
         if (c < a) return (d - a)
-    }
+   }
     return -1
 }
