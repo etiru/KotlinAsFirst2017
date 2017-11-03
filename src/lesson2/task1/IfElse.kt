@@ -42,10 +42,6 @@ fun ageDescription(age: Int): String {
     return if ((a in 2..4 || b in 2..4) &&
             ((age !in 12..14) && (age !in 112..114)))
         "$age года" else "$age лет"
-    /**  if (a == 0 || a in 5..9 || b == 0 || b in 5..9 || (age in 11..14) ||
-     *(age in 111..114)) return "$age лет"
-     *return "$age error"
-     */
 }
 
 /**
@@ -65,14 +61,14 @@ fun timeForHalfWay(t1: Double, v1: Double,
 
     if (halfS <= s1) {
         val t = t1 - ((s1 - halfS) / v1)
-        return (t)
+        return t
     }
     if (halfS <= (s1 + s2)) {
         val t = t1 + (t2 - (((s1 + s2) - halfS) / v2))
-        return (t)
+        return t
     }
     val t = t1 + t2 + (t3 - ((halfS / v3)))
-    return (t)
+    return t
 }
 
 
@@ -160,14 +156,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (d > b) {
-        if (c in a..b) return (b - c)
-        if (c < a) return (b - a)
-    }
-    if (d in a..b) {
-        if (c in a..d) return (d - c)
-        if (c < a) return (d - a)
-   }
-    return -1
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
+    ((d > b) && (c in a..b)) -> b - c
+    ((d > b) && (c < a)) -> b - a
+    ((d in a..b) && (c in a..d)) -> d - c
+    ((d in a..b) && (c < a)) -> d - a
+    else -> -1
 }
