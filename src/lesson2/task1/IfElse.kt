@@ -36,10 +36,11 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    val a = age % 10
-    val b = age % 100
-    if ((a == 1 || b == 1) && (age != 11 && age != 111)) return "$age год"
-    return if ((a in 2..4 || b in 2..4) &&
+    val hundredYears = age % 10
+    val twoHundredYears = age % 100
+    if ((hundredYears == 1 || twoHundredYears == 1)
+            && (age != 11 && age != 111)) return "$age год"
+    return if ((hundredYears in 2..4 || twoHundredYears in 2..4) &&
             ((age !in 12..14) && (age !in 112..114)))
         "$age года" else "$age лет"
 }
@@ -59,16 +60,10 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s1 = t1 * v1                        // путь первого участка
     val s2 = t2 * v2                        // путь второго участка
 
-    if (halfS <= s1) {
-        val t = t1 - ((s1 - halfS) / v1)
-        return t
-    }
-    if (halfS <= (s1 + s2)) {
-        val t = t1 + (t2 - (((s1 + s2) - halfS) / v2))
-        return t
-    }
-    val t = t1 + t2 + (t3 - ((halfS / v3)))
-    return t
+    if (halfS <= s1) return t1 - ((s1 - halfS) / v1)
+
+    return if (halfS <= (s1 + s2)) t1 + (t2 - (((s1 + s2) - halfS) / v2))
+    else t1 + t2 + (t3 - ((halfS / v3)))
 }
 
 
@@ -84,11 +79,11 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val sKx = (kingX == rookX2 || kingY == rookY2) //Угроза от первой ладьи
-    val sKy = (kingX == rookX1 || kingY == rookY1) // Угроза от второй ладьи
-    if (sKy && sKx) return 3
-    if (sKx) return 2
-    return if (sKy) 1 else 0
+    val threatFirstRook = (kingX == rookX2 || kingY == rookY2) //Угроза от первой ладьи
+    val threatSecondRook = (kingX == rookX1 || kingY == rookY1) // Угроза от второй ладьи
+    if (threatSecondRook && threatFirstRook) return 3
+    if (threatFirstRook) return 2
+    return if (threatSecondRook) 1 else 0
 }
 
 /**

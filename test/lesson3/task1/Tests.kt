@@ -1,5 +1,6 @@
 package lesson3.task1
 
+import lesson6.task2.Square
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
@@ -64,6 +65,7 @@ class Tests {
         assertEquals(2, digitNumber(10))
         assertEquals(2, digitNumber(99))
         assertEquals(3, digitNumber(123))
+        assertEquals(5,digitNumber(-83654))
         assertEquals(10, digitNumber(Int.MAX_VALUE))
     }
 
@@ -205,6 +207,7 @@ class Tests {
         assertEquals(6, squareSequenceDigit(12))
         assertEquals(0, squareSequenceDigit(17))
         assertEquals(9, squareSequenceDigit(27))
+        assertEquals(0, squareSequenceDigit(18))
     }
 
     @Test
