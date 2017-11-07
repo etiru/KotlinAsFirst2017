@@ -289,7 +289,7 @@ fun squareSequenceDigit(n: Int): Int {
     }
     var residueQuadrate = sum - n                     // действие которое определяет за сколько цифр в квадрете числа, вышла n (пример
                                                         // квадрат 13 -> 169 допустим n остановилась на 6 ке, значит нужно отсечь 1 цифру -> 9
-    while (residueQuadrate != 0) {  // процесс отсечения цифр)
+    while (residueQuadrate != 0) {  // процесс отсечения цифр/)
         quadrate /= 10
         residueQuadrate--
     }
