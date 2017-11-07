@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 import lesson1.task1.sqr
@@ -37,7 +38,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -101,8 +102,8 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    val greaterNumber = max(m , n)
-    val smallNumber = min(m , n)
+    val greaterNumber = max(m, n)
+    val smallNumber = min(m, n)
     var divisor = greaterNumber
 
     while ((divisor % smallNumber) != 0) {
@@ -120,7 +121,7 @@ fun lcm(m: Int, n: Int): Int {
 
 fun minDivisor(n: Int): Int {
     var divisor = 2
-    for (i in 2..(n / 2)){
+    for (i in 2..(n / 2)) {
         if ((n % divisor) == 0) break
         else divisor += 1
     }
@@ -133,13 +134,14 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var divisor = n-1
-    for (i in n-1 downTo 1){
+    var divisor = n - 1
+    for (i in n - 1 downTo 1) {
         if ((n % divisor) == 0) break
         else divisor -= 1
     }
     return divisor
 }
+
 /**
  * Простая
  *
@@ -147,17 +149,18 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean  {
-    val greatNumber = max(m , n)
-    val smallNumber = min(m , n)
+fun isCoPrime(m: Int, n: Int): Boolean {
+    val greatNumber = max(m, n)
+    val smallNumber = min(m, n)
     var divisor = greatNumber
 
-    while (((greatNumber % divisor) !=0) || ((smallNumber % divisor) != 0)) {
+    while (((greatNumber % divisor) != 0) || ((smallNumber % divisor) != 0)) {
         divisor -= 1
     }
 
     return divisor <= 1
 }
+
 /**
  * Простая
  *
@@ -168,10 +171,10 @@ fun isCoPrime(m: Int, n: Int): Boolean  {
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var k = m
 
-    for (i in m..n){
+    for (i in m..n) {
         val l = sqrt(k.toDouble()).toInt()
         if ((l * l) == k) break
-        else k += 1
+        else k++
     }
     return k != n + 1
 }
@@ -183,29 +186,22 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double  { TODO()}
-    //var sumSin = x
-    //var sin = x % (2 * PI)
-    //var sum = sin
-    //var n = 2
-    //var i = 1.0
-    //var member = +1
+fun sin(x: Double, eps: Double): Double {
 
-    //if (x == 0.0) return 0.0
-    //while (abs(sum) >= eps){
-    //    sum = pow(-1.0, i) * ((pow(x, n)) / factorial(n.toInt()))
-    //    sumSin += sum
-    //    n += 2
-    //    i++
-  // }
-   // while (abs(sum) > eps) {
-     //  sum = - sum * pow(x , 2.0) / (n * (n + 1))
-      // n += 2
-    //    sumSin += sum
-    //}
+    var sumSin = 0.0
+    val newX = x % (2 * PI)
+    var sum: Double
+    var n = -1
+    var i = 1
 
-//    return sumSin
-//}
+    do {
+        sum = (pow(newX, i.toDouble())) / factorial(i)
+        n *= (-1)
+        sumSin += n * sum
+        i += 2
+    } while (abs(sum) > eps)
+    return sumSin
+}
 
 /**
  * Средняя
@@ -214,7 +210,22 @@ fun sin(x: Double, eps: Double): Double  { TODO()}
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var sumCos = 0.0
+    val newX = x % (2 * PI)
+    var sum: Double
+    var n = -1
+    var i = 0
+
+    do {
+        sum = (pow(newX, i.toDouble())) / factorial(i)
+        n *= (-1)
+        sumCos += n * sum
+        i += 2
+    } while (abs(sum) > eps)
+    return sumCos
+
+}
 
 /**
  * Средняя
@@ -254,9 +265,9 @@ fun isPalindrome(n: Int): Boolean = revert(n) == n
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean  {
-       val x = n % 10.0
-       return digitCountInNumber(n, x.toInt()) != digitNumber(n)
+fun hasDifferentDigits(n: Int): Boolean {
+    val x = n % 10.0
+    return digitCountInNumber(n, x.toInt()) != digitNumber(n)
 }
 
 /**
@@ -271,16 +282,17 @@ fun squareSequenceDigit(n: Int): Int {
     var ratioQuadrate = 1
     var sum = 0
 
-    while (n > sum){                      // тут я искал квадраты чисел, и суммировал кол-во цифр в них, так-же тут находиться последний квадрат в который входит n
+    while (n >= sum + 1) {                      // тут я искал квадраты чисел, и суммировал кол-во цифр в них, так-же тут находиться последний квадрат в который входит n
         quadrate = ratioQuadrate * ratioQuadrate
         sum += digitNumber(quadrate)
         ratioQuadrate++
     }
-    val residueQuadrate = sum - n                     // действие которое определяет за сколько цифр в квадрете числа, вышла n (пример
-                                        // квадрат 13 -> 169 допустим n остановилась на 6 ке, значит нужно отсечь 1 цифру -> 9
-    if (residueQuadrate != 0)
-        while (quadrate > 10) quadrate /= 10  // процесс отсечения цифр)
-
+    var residueQuadrate = sum - n                     // действие которое определяет за сколько цифр в квадрете числа, вышла n (пример
+                                                        // квадрат 13 -> 169 допустим n остановилась на 6 ке, значит нужно отсечь 1 цифру -> 9
+    while (residueQuadrate != 0) {  // процесс отсечения цифр)
+        quadrate /= 10
+        residueQuadrate--
+    }
     return quadrate % 10
 
 }
@@ -294,18 +306,20 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
     var fib = 1
-    var ratioFib= 1
+    var ratioFib = 1
     var sum = 0
 
-    while (n > sum){
+    while (n > sum) {
         fib = fib(ratioFib)
         sum += digitNumber(fib)
         ratioFib++
 
     }
-    val residueFib = sum - n
+    var residueFib = sum - n
 
-    if (residueFib != 0)
-        while (fib > 10) fib /= 10
+    while (residueFib != 0) {
+        fib /= 10
+        residueFib--
+    }
     return fib % 10
 }
