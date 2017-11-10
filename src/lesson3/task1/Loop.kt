@@ -169,16 +169,13 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k = m
-
+    var number = 0.0
     for (i in m..n) {
-        val l = sqrt(k.toDouble()).toInt()
-        if ((l * l) == k) break
-        else k++
-    }
-    return k != n + 1
+        number = sqr(ceil(sqrt(i.toDouble())))     // я перебираю числа и ищу корень каждого, если он не точный формата x,xxxxxxx... ,
+        if (number == i.toDouble()) break          // то округляю в меньшую сторону, потом возвожу в квадрат, и сравниваю с исходным,
+    }                                              // если они равны, то значит существует такое число (условие)
+    return number <= n
 }
-
 /**
  * Средняя
  *
@@ -282,7 +279,7 @@ fun squareSequenceDigit(n: Int): Int {
     var ratioQuadrate = 1
     var sum = 0
 
-    while (n >= sum + 1) {                      // тут я искал квадраты чисел, и суммировал кол-во цифр в них, так-же тут находиться последний квадрат в который входит n
+    while (n > sum) {                      // тут я искал квадраты чисел, и суммировал кол-во цифр в них, так-же тут находиться последний квадрат в который входит n
         quadrate = ratioQuadrate * ratioQuadrate
         sum += digitNumber(quadrate)
         ratioQuadrate++
