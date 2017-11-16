@@ -121,7 +121,7 @@ fun lcm(m: Int, n: Int): Int {
 
 fun minDivisor(n: Int): Int {
     var divisor = 2
-    for (i in 2..(n / 2)) {
+    for (i in 2..(n / 3)) {
         if ((n % divisor) == 0) break
         else divisor += 1
     }
@@ -134,8 +134,8 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var divisor = n - 1
-    for (i in n - 1 downTo 1) {
+    var divisor = n / 2
+    for (i in n / 2 downTo 1) {
         if ((n % divisor) == 0) break
         else divisor -= 1
     }
@@ -152,13 +152,13 @@ fun maxDivisor(n: Int): Int {
 fun isCoPrime(m: Int, n: Int): Boolean {
     val greatNumber = max(m, n)
     val smallNumber = min(m, n)
-    var divisor = greatNumber
+    var divisor = greatNumber / 3
 
     while (((greatNumber % divisor) != 0) || ((smallNumber % divisor) != 0)) {
         divisor -= 1
     }
 
-    return divisor <= 1
+    return divisor == 1
 }
 
 /**
@@ -168,14 +168,9 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var number = 0.0
-    for (i in m..n) {
-        number = sqr(ceil(sqrt(i.toDouble())))     // я перебираю числа и ищу корень каждого, если он не точный формата x,xxxxxxx... ,
-        if (number == i.toDouble()) break          // то округляю в меньшую сторону, потом возвожу в квадрат, и сравниваю с исходным,
-    }                                              // если они равны, то значит существует такое число (условие).
-    return number <= n
-}
+fun squareBetweenExists(m: Int, n: Int): Boolean =
+        m <= sqr(floor(sqrt(n.toDouble())))
+
 /**
  * Средняя
  *
@@ -232,15 +227,12 @@ fun cos(x: Double, eps: Double): Double {
  */
 fun revert(n: Int): Int {
     val countNumber = digitNumber(n)
-    var divisor = 1
+    var divisor = pow(10.0, countNumber.toDouble()) / 10
     var change = 0
     var number = n
-    for (i in 1..(countNumber - 1)) {  // нашел делитель для дальнейших вычислений
-        divisor *= 10
-    }
 
     for (i in (1..(countNumber))) {
-        change += (number % 10) * divisor
+        change += (number % 10) * divisor.toInt()
         number /= 10
         divisor /= 10
     }
@@ -279,15 +271,15 @@ fun squareSequenceDigit(n: Int): Int {
     var ratioQuadrate = 1
     var sum = 0
 
-    while (n > sum) {                      // тут я искал квадраты чисел, и суммировал кол-во цифр в них, так-же тут находиться последний квадрат в который входит n
-        quadrate = ratioQuadrate * ratioQuadrate
-        sum += digitNumber(quadrate)
+    while (n > sum) {                             // тут я искал квадраты чисел,
+        quadrate = ratioQuadrate * ratioQuadrate  // и суммировал кол-во цифр в них,
+        sum += digitNumber(quadrate)              // так-же тут находиться последний квадрат в который входит n
         ratioQuadrate++
     }
-    var residueQuadrate = sum - n                     // действие которое определяет за сколько цифр в квадрете числа, вышла n (пример
-                                                        // квадрат 13 -> 169 допустим n остановилась на 6 ке, значит нужно отсечь 1 цифру -> 9
-    while (residueQuadrate != 0) {  // процесс отсечения цифр/)
-        quadrate /= 10
+    var residueQuadrate = sum - n     // действие которое определяет за сколько цифр в квадрете числа,
+                                      // вышла n; пример квадрат 13 -> 169 допустим n остановилась на 6 ке,
+    while (residueQuadrate != 0) {    // значит нужно отсечь 1 цифру -> 9
+        quadrate /= 10              // процесс отсечения цифр/)
         residueQuadrate--
     }
     return quadrate % 10
