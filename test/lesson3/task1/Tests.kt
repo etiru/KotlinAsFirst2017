@@ -103,6 +103,7 @@ class Tests {
     fun minDivisor() {
         assertEquals(2, minDivisor(2))
         assertEquals(3, minDivisor(75))
+        assertEquals(7, minDivisor(7))
         assertEquals(5, minDivisor(75 / 3))
         assertEquals(97, minDivisor(97))
         assertEquals(7, minDivisor(49))
@@ -133,6 +134,7 @@ class Tests {
         assertFalse(isCoPrime(6, 8))
         assertTrue(isCoPrime(17, 97))
         assertFalse(isCoPrime(37, 111))
+        assertFalse(isCoPrime(2, 2))
         assertTrue(isCoPrime(1234567890, 908765431))
         assertTrue(isCoPrime(2109876543, 1234567891))
     }
