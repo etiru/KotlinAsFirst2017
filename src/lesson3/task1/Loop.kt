@@ -152,7 +152,11 @@ fun maxDivisor(n: Int): Int {
 fun isCoPrime(m: Int, n: Int): Boolean {
     val greatNumber = max(m, n)
     val smallNumber = min(m, n)
-    var divisor = greatNumber / 3
+    var divisor: Int
+
+    if (greatNumber > 3) divisor = greatNumber / 3
+    else divisor = greatNumber
+
     if (divisor == 0) return false
     while (((greatNumber % divisor) != 0) || ((smallNumber % divisor) != 0)) {
         divisor -= 1
