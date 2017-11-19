@@ -308,26 +308,22 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
-//{
-//    val s1 = mutableListOf<Int>()
-//    val abc = "abcdefghijklmnopqrstuvwxyz"
-//    for (char in str){
-//        val m = char //1 c
-//        if (char.toInt() < 10)
-//            s1.add(char.toInt()) //1
-//        else {
-//            var i = 0 //3
-//            while (abc[i] == m && (i < str.length - 1)) {
-//                i++
-//            }
-//            i += 10
-///            s1.add(i)
-//        }
-//    }
-//    val result = decimal(s1, base)
-//    return result
-//}
+fun decimalFromString(str: String, base: Int): Int {
+    val strToList = mutableListOf<Int>()
+    val abc = "abcdefghijklmnopqrstuvwxyz"
+    val number = "0123456789"
+
+    for (i in 0 until str.length)
+        if (str[i] in number) {
+            val rank = str[i].toInt() - '0'.toInt() // преобразование символа в число, нашел на
+            strToList.add(rank)                     // http://kotlinlang.ru/docs/reference/basic-types.html
+        } else {
+            val rank = str[i]
+            val index = abc.indexOf(rank, 0)
+            strToList.add(index + 10)
+        }
+    return decimal(strToList, base)
+}
 
 /**
  * Сложная
@@ -337,11 +333,25 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String =TODO()
-//{
-//    var result = ""
-//
-//}
+fun roman(n: Int): String {
+    var result = ""
+    var m = n
+    val romanList = listOf<String>("I", "IV", "V", "IX", "X", "XL", "L", "XC",
+            "C", "CD", "D", "CM", "M")
+    val romanNumericLine = listOf<Int>(1, 4, 5, 9, 10, 40, 50, 90, 100,
+            400, 500, 900, 1000, 9999999)
+
+    while (m > 0) {
+        for (i in 0 until romanNumericLine.size) {
+            if (m >= romanNumericLine[i] && m < romanNumericLine[i + 1]) {
+                result += romanList[i]
+                m -= romanNumericLine[i]
+                break
+            }
+        }
+    }
+    return result
+}
 
 /**
  * Очень сложная
@@ -351,3 +361,150 @@ fun roman(n: Int): String =TODO()
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String = TODO()
+//{
+//    val nToList = mutableListOf<Int>()
+//    val mToList = nToList.reversed()
+//    val mmToList = mutableListOf<Int>()
+//    var m = n
+//    while(m > 0){
+//        var k = m % 10
+//        nToList.add(k)
+//        m /= 10
+//    }
+//    while(nToList.size != 6){
+//        nToList.add(0)
+//    }
+//     for ( i in  5 downTo 0 ){
+//         mmToList.add(nToList[i])
+//     }
+//
+//    val a1 = mmToList[0]
+//    val a2 = mmToList[1]
+//    val a3 = mmToList[2]
+//    val a4 = mmToList[3]
+//    val a5 = mmToList[4]
+//    val a6 = mmToList[5]
+//
+//    val razmer = mmToList.size
+///    var result = ""
+//    val rus = listOf<String>("один","одна", "два","две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять", "одиннадцать", "двенадцать", "тринадцать",
+//            "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать", "двадцать", "тридцать", "сорок",
+//            "пятьдесят", "шестьдесят", "семьдесят", "восемдесят", "девяносто", "сто", "двести","триста","четыреста", "пятьсот", "шестьсот",
+//            "семьсот", "восемьсот", "девятьсот", "тысяча","тысячи","тысяч","")
+//    val rusTranslate = listOf<Int>(1, 111 , 2, 22, 3, 4 , 5 , 6 , 7 , 8, 9, 10 , 11 ,12, 13 , 14, 15, 16, 17 , 18, 19, 20, 30 ,40 ,50,60,70,80,90,
+//            100,200,300,400,500,600,700,800,900,1000,1001,1002,0)
+//
+//    val prob = rusTranslate.indexOf(0) - 0.toInt()
+//    val pgsdf = rus[40]
+//
+//
+//    if (nToList.size == 6) {
+//
+//        if (mmToList[0] == 0) {
+//            result += ""
+//        } else {
+//            val first = rusTranslate.indexOf(mmToList[0] * 100)
+//            val p = rus[first]
+//            result += "$p "
+//        }
+//
+//
+//        if (mmToList[1] == 0) {
+//            result += ""
+//
+//        }
+//        else
+//        {
+//            var u = 1
+//              val fds = mmToList[1]
+///              val   u = when (fds) {
+//                  2 -> 22
+//                  1 -> 111
+//                  else -> mmToList[1]
+//              }
+            val d = u
+//
+//            val second = rusTranslate.indexOf(rusTranslate[1] * 10)
+//            val k = rus[second]
+//            result += "$k  "
+//        }
+///
+//
+//        if (mmToList[2] == 0) {
+//            result += ""
+//        } else {
+//            val third = rusTranslate.indexOf(mmToList[2])
+//            val h = rus[third]
+//            result += "$h "
+//        }
+//
+//
+//        if (mmToList[3] == 0) {
+//            result += ""
+//        } else {
+//            val fourth = rusTranslate.indexOf(mmToList[3] * 100)
+//            val j = rus[fourth]
+//            result += "$j "
+//        }
+//
+//
+//        if (mmToList[4] == 0) {
+//            result += ""
+//        } else {
+//            val five = rusTranslate.indexOf(mmToList[4] * 10)
+//            val b = rus[five]
+//            result += "$b "
+//        }
+//
+//        val six = rusTranslate.indexOf(mmToList[5])
+//        val dj = rus[six]
+//        result += "$dj"
+//
+//
+//    }
+//    if (nToList.size == 5) {
+//        val second = rusTranslate.indexOf(mToList[1] * 10)
+//        result += rus[second]
+//        val third = rusTranslate.indexOf(mToList[2])
+//        result += rus[third]
+//        val fourth = rusTranslate.indexOf(mToList[3] * 100)
+//        result += rus[fourth]
+//        val five = rusTranslate.indexOf(mToList[4] * 10)
+//        result += rus[five]
+//        val six = rusTranslate.indexOf(mToList[5])
+//        result += rus[six]
+//
+//    }
+//    if (nToList.size == 4) {
+//
+//        val third = rusTranslate.indexOf(mToList[2])
+//        result += rus[third]
+//        val fourth = rusTranslate.indexOf(mToList[3] * 100)
+//        result += rus[fourth]
+//        val five = rusTranslate.indexOf(mToList[4] * 10)
+//        result += rus[five]
+//        val six = rusTranslate.indexOf(mToList[5])
+//        result += rus[six]
+//    }
+//    if (nToList.size == 3) {
+//        val fourth = rusTranslate.indexOf(mToList[3] * 100)
+///        result += rus[fourth]
+//        val five = rusTranslate.indexOf(mToList[4] * 10)
+//        result += rus[five]
+//        val six = rusTranslate.indexOf(mToList[5])
+//        result += rus[six]
+//    }
+//    if (nToList.size == 2) {
+//
+//        val five = rusTranslate.indexOf(mToList[4] * 10)
+//        result += rus[five]
+//        val six = rusTranslate.indexOf(mToList[5])
+//        result += rus[six]
+//    }
+//    if (nToList.size == 1) {
+//
+//        val six = rusTranslate.indexOf(mToList[5])
+//        result += rus[six]
+//    }
+//    return result
+//}
