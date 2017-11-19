@@ -408,8 +408,6 @@ fun russian(n: Int): String {
         }
     }
 
-    if (mToList[0] != 0 && mToList[1] == 0 && mToList[2] == 0)
-        result += "тысяч "
 
     when {
         mToList[1] == 0 -> result += ""
@@ -420,6 +418,9 @@ fun russian(n: Int): String {
             result += "$second "
         }
     }
+
+    if (mToList[0] != 0 && mToList[2] == 0)
+        result += "тысяч "
 
     when {
         mToList[2] == 0 -> result += ""
