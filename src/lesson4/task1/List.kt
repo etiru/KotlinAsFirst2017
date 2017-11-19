@@ -445,12 +445,11 @@ fun russian(n: Int): String {
         }
     }
 
-    val addition = when (mToList[2]) {
-        0 -> ""
-        1 -> "тысяча "
-        in 2..4 -> "тысячи "
+    val addition = when {
+        mToList[2] == 0 -> ""
+        mToList[2] == 1 && mToList[1] != 1 -> "тысяча "
+        mToList[2] in 2..4 && mToList[1] != 1 -> "тысячи "
         else -> "тысяч "
-
     }
     result += addition
 
