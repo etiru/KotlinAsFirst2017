@@ -360,7 +360,9 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+//fun russian(n: Int): String {
+//    TODO()
+//}
 //{
 //    val nToList = mutableListOf<Int>()
 //    val mToList = nToList.reversed()
@@ -422,7 +424,7 @@ fun russian(n: Int): String = TODO()
 //                  1 -> 111
 //                  else -> mmToList[1]
 //              }
-            val d = u
+//            val d = u
 //
 //            val second = rusTranslate.indexOf(rusTranslate[1] * 10)
 //            val k = rus[second]
