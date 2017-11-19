@@ -2,6 +2,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson2.task1.whichRookThreatens
 import lesson3.task1.isPrime
 import java.lang.Math.*
 
@@ -360,4 +361,128 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val nToList = mutableListOf<Int>()
+    val mToList = mutableListOf<Int>()
+    var m = n
+    var result = ""
+
+    val rus = listOf<String>("один", "одна", "два", "две", "три", "четыре",
+            "пять", "шесть", "семь", "восемь", "девять", "десять",
+            "одиннадцать", "двенадцать", "тринадцать",
+            "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать",
+            "восемнадцать", "девятнадцать", "двадцать", "тридцать", "сорок",
+            "пятьдесят", "шестьдесят", "семьдесят", "восемдесят", "девяносто",
+            "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот",
+            "семьсот", "восемьсот", "девятьсот", "тысяча", "тысячи", "тысяч",
+            "")
+
+    val rusTranslate = listOf<Int>(1, 111, 2, 22, 3, 4, // дублирование rus
+            5, 6, 7, 8, 9, 10,
+            11, 12, 13,
+            14, 15, 16, 17,
+            18, 19, 20, 30, 40,
+            50, 60, 70, 80, 90,
+            100, 200, 300, 400, 500, 600,
+            700, 800, 900, 1000, 1001, 1002,
+            0)
+
+    while(m > 0){  // заполню лист разрядами (заполниться в обрантном порядке)
+        val category = m % 10
+        nToList.add(category)
+        m /= 10
+    }
+    while(nToList.size != 6){ // сделаю размер листа 6, заполню недостающее нулями
+        nToList.add(0)
+    }
+    for ( i in  5 downTo 0 ){ //переверну лист, создав другой (рабочий)
+        mToList.add(nToList[i])
+    }
+
+    when { // начинаем сравнивать элементы списка
+        mToList[0] == 0 -> result += ""
+        else -> {
+            val index = rusTranslate.indexOf(mToList[0] * 100)
+            val first = rus[index]
+            result += "$first "
+        }
+    }
+
+    if (mToList[0] != 0 && mToList[1] == 0 && mToList[2] == 0)
+        result += "тысяч "
+
+    when {
+        mToList[1] == 0 -> result += ""
+        mToList[1] == 1 && mToList[2] != 0 -> result += ""  // в след. when
+        else -> {
+            val index = rusTranslate.indexOf(mToList[1] * 10)
+            val second = rus[index]
+            result += "$second "
+        }
+    }
+
+    when {
+        mToList[2] == 0 -> result += ""
+
+        mToList[1] == 1 && mToList[2] != 0 -> { // диапазаон 10..19
+            val res = mToList[1] * 10 + mToList[2]
+            val index = rusTranslate.indexOf(res)
+            val third = rus[index]
+            result += "$third "
+        }
+        else -> {
+            val category = mToList[2]
+            val declination = when (category) {
+                2 -> 22
+                1 -> 111
+                else -> mToList[2]
+            }
+            val index = rusTranslate.indexOf(declination)
+            val third = rus[index]
+            result += "$third "
+
+        }
+    }
+
+    val addition = when (mToList[2]) {
+        0 -> ""
+        1 -> "тысяча "
+        in 2..4 -> "тысячи "
+        else -> "тысяч "
+
+    }
+    result += addition
+
+    when {
+        mToList[3] == 0 -> result += ""
+        else -> {
+            val index = rusTranslate.indexOf(mToList[3] * 100)
+            val four = rus[index]
+            result += "$four "
+        }
+    }
+
+    when {
+        mToList[4] == 0 -> result += ""
+        mToList[4] == 1 && mToList[5] != 0 -> {
+            val index = rusTranslate.indexOf(10 + mToList[5])
+            val five = rus[index]
+            result += "$five "
+        }
+        else -> {
+            val index = rusTranslate.indexOf(mToList[4] * 10)
+            val five = rus[index]
+            result += "$five "
+        }
+    }
+    when {
+        mToList[5] == 0 -> result += ""
+        mToList[4] == 1 && mToList[5] != 0 -> result += ""
+        else -> {
+            val index = rusTranslate.indexOf(mToList[5])
+            val six = rus[index]
+            result += "$six "
+        }
+    }
+    return result.trim()
+}
