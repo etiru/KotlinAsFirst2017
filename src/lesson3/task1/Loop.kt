@@ -182,7 +182,7 @@ fun sin(x: Double, eps: Double): Double {
         n *= (-1)
         sumSin += n * sum
         i += 2
-    } while (abs(sum) > eps)
+    } while (sum > eps)
     return sumSin
 }
 
@@ -205,7 +205,7 @@ fun cos(x: Double, eps: Double): Double {
         n *= (-1)
         sumCos += n * sum
         i += 2
-    } while (abs(sum) > eps)
+    } while (sum > eps)
     return sumCos
 
 }
@@ -217,7 +217,7 @@ fun cos(x: Double, eps: Double): Double {
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var divisor = pow(10.0, digitNumber(n).toDouble()) / 10
+    var divisor = pow(10.0, digitNumber(n).toDouble() - 1)
     var change = 0
     var number = n
 
