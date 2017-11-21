@@ -182,7 +182,7 @@ fun sin(x: Double, eps: Double): Double {
         n *= (-1)
         sumSin += n * sum
         i += 2
-    } while (sum > eps)
+    } while (abs (sum) > eps)
     return sumSin
 }
 
