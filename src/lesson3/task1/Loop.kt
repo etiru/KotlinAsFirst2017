@@ -205,7 +205,7 @@ fun cos(x: Double, eps: Double): Double {
         n *= (-1)
         sumCos += n * sum
         i += 2
-    } while (sum > eps)
+    } while (abs(sum) > eps)
     return sumCos
 
 }
