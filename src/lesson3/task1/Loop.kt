@@ -121,7 +121,7 @@ fun lcm(m: Int, n: Int): Int {
 
 fun minDivisor(n: Int): Int {
     var divisor = 2
-    for (i in 2..(n / 3)) {
+    for (i in 2..ceil(sqrt(n.toDouble())).toInt()) {
         if ((n % divisor) == 0) break
         else divisor += 1
     }
@@ -133,14 +133,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var divisor = n / 2
-    for (i in n / 2 downTo 1) {
-        if ((n % divisor) == 0) break
-        else divisor -= 1
-    }
-    return divisor
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -150,19 +143,13 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    val greatNumber = max(m, n)
-    val smallNumber = min(m, n)
-    var divisor: Int
-
-    if (greatNumber > 3) divisor = greatNumber / 3
-    else divisor = greatNumber
-
-    if (divisor == 0) return false
-    while (((greatNumber % divisor) != 0) || ((smallNumber % divisor) != 0)) {
-        divisor -= 1
+    var nVar = n
+    var mVar = m
+    while (nVar != mVar) {
+        if (nVar > mVar) nVar -= mVar
+        if (mVar > nVar) mVar -= nVar
     }
-
-    return divisor == 1
+    return nVar == 1
 }
 
 /**
@@ -195,7 +182,7 @@ fun sin(x: Double, eps: Double): Double {
         n *= (-1)
         sumSin += n * sum
         i += 2
-    } while (abs(sum) > eps)
+    } while (sum > eps)
     return sumSin
 }
 
@@ -218,7 +205,7 @@ fun cos(x: Double, eps: Double): Double {
         n *= (-1)
         sumCos += n * sum
         i += 2
-    } while (abs(sum) > eps)
+    } while (sum > eps)
     return sumCos
 
 }
@@ -230,12 +217,11 @@ fun cos(x: Double, eps: Double): Double {
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    val countNumber = digitNumber(n)
-    var divisor = pow(10.0, countNumber.toDouble()) / 10
+    var divisor = pow(10.0, digitNumber(n).toDouble()) / 10
     var change = 0
     var number = n
 
-    for (i in (1..(countNumber))) {
+    while(divisor.toInt() != 0){
         change += (number % 10) * divisor.toInt()
         number /= 10
         divisor /= 10
