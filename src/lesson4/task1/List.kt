@@ -4,7 +4,12 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import lesson2.task1.whichRookThreatens
 import lesson3.task1.isPrime
+import lesson3.task1.minDivisor
+import sun.reflect.generics.tree.Tree
 import java.lang.Math.*
+
+
+
 
 /**
  * Пример
@@ -111,9 +116,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var sum = 0.0
-    for (element in v){
-        val quad = element * element
-        sum += quad
+    for (element in v) {
+        sum += element * element
     }
     return sqrt(sum)
 }
@@ -138,8 +142,7 @@ fun mean(list: List<Double>): Double  {
 fun center(list: MutableList<Double>): MutableList<Double> {
     val averageValue = mean(list)
     for (i in 0 until list.size) {
-        val element = list[i]
-        list[i] = element - averageValue
+        list[i] -= averageValue
     }
     return list
 }
@@ -153,10 +156,8 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Double>, b: List<Double>): Double {
     var sum = 0.0
-
-    for (i in 0 until a.size){
-        val addend = a[i] * b [i]
-        sum += addend
+    for (i in 0 until a.size) {
+        sum += a[i] * b[i]
     }
     return sum
 }
@@ -191,8 +192,7 @@ fun polynom(p: List<Double>, x: Double): Double {
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var sum = 0.0
     for(i in 0 until list.size){
-        val element = list[i]
-        sum += element
+        sum += list[i]
         list[i] = sum
     }
     return list
@@ -207,22 +207,12 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 fun factorize(n: Int): List<Int> {
     val result = mutableListOf<Int>()
-    var m = n.toDouble()
-    var divisior = 2
-    var a = m
+    var m = n
     if (isPrime(n)) return mutableListOf(n)
-
     while (m > 1) {
-        a = m
-        m /= divisior
-        if ((m % 1) == 0.0) {
-            result.add(divisior)
-            divisior = 2
-            continue
-        } else m = a
-        divisior++
+            result.add(minDivisor(m))
+            m /= minDivisor(m)
     }
-
     return result
 }
 
@@ -232,11 +222,8 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String {
-    val resultList = factorize(n)
-    val result = resultList.joinToString(separator = "*", postfix = "")
-    return result
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
+
 
 /**
  * Средняя
@@ -267,7 +254,7 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val result = mutableListOf<String>()
-    val latin = "abcdefghijklmnopqrstuvwxyz"
+    val latin = ('a' .. 'z').toList()
     val convert = convert(n, base)   // list convert
 
     for (element in convert) {
@@ -311,8 +298,8 @@ fun decimal(digits: List<Int>, base: Int): Int {
  */
 fun decimalFromString(str: String, base: Int): Int {
     val strToList = mutableListOf<Int>()
-    val abc = "abcdefghijklmnopqrstuvwxyz"
-    val number = "0123456789"
+    val abc = ('a' .. 'z').toList()
+    val number = ('0' .. '9').toList()
 
     for (i in 0 until str.length)
         if (str[i] in number) {
@@ -320,7 +307,7 @@ fun decimalFromString(str: String, base: Int): Int {
             strToList.add(rank)                     // http://kotlinlang.ru/docs/reference/basic-types.html
         } else {
             val rank = str[i]
-            val index = abc.indexOf(rank, 0)
+            val index = abc.indexOf(rank)
             strToList.add(index + 10)
         }
     return decimal(strToList, base)
@@ -335,23 +322,19 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var result = ""
+    val result = StringBuilder("")
     var m = n
-    val romanList = listOf<String>("I", "IV", "V", "IX", "X", "XL", "L", "XC",
-            "C", "CD", "D", "CM", "M")
-    val romanNumericLine = listOf<Int>(1, 4, 5, 9, 10, 40, 50, 90, 100,
-            400, 500, 900, 1000, 9999999)
+    val romanMap: Map<Int, String> = mapOf(1000 to "M", 900 to "CM", 500 to "D", 400 to "CD", 100 to "C", 90 to "XC",
+            50 to "L", 40 to "XL", 10 to "X", 9 to "IX", 5 to "V", 4 to "IV", 1 to "I")
 
-    while (m > 0) {
-        for (i in 0 until romanNumericLine.size) {
-            if (m >= romanNumericLine[i] && m < romanNumericLine[i + 1]) {
-                result += romanList[i]
-                m -= romanNumericLine[i]
-                break
-            }
+    for (key in romanMap.keys) {
+        while (m >= key) {
+            result.append(romanMap[key])
+            m -= key
         }
+        if (m == 0) break
     }
-    return result
+    return result.toString()
 }
 
 /**
@@ -361,128 +344,113 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String {
+fun russianAddition(n: Int): String {
+    val russianMap: Map<Int, String> = mapOf(1 to " один", 111 to " одна", 2 to " два", 22 to " две", 3 to " три",
+            4 to " четыре", 5 to " пять", 6 to " шесть", 7 to " семь", 8 to " восемь", 9 to " девять", 10 to " десять",
+            11 to " одиннадцать", 12 to " двенадцать", 13 to " тринадцать", 14 to " четырнадцать", 15 to " пятнадцать",
+            16 to " шестнадцать", 17 to " семнадцать", 18 to " восемнадцать", 19 to " девятнадцать", 20 to " двадцать",
+            30 to " тридцать", 40 to " сорок", 50 to " пятьдесят", 60 to " шестьдесят", 70 to " семьдесят",
+            80 to " восемьдесят", 90 to " девяносто", 100 to " сто", 200 to " двести", 300 to " триста",
+            400 to " четыреста", 500 to " пятьсот", 600 to " шестьсот", 700 to " семьсот", 800 to " восемьсот",
+            900 to " девятьсот", 1000 to " тысяча", 1001 to " тысячи", 1002 to " тысяч", 0 to "")
+
+    val index = russianMap.get(n)
+    return "$index"
+}
+
+fun russian(n: Int): CharSequence {
     val nToList = mutableListOf<Int>()
     val mToList = mutableListOf<Int>()
     var m = n
-    var result = ""
+    val result = StringBuilder()
 
-    val rus = listOf<String>("один", "одна", "два", "две", "три", "четыре",
-            "пять", "шесть", "семь", "восемь", "девять", "десять",
-            "одиннадцать", "двенадцать", "тринадцать",
-            "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать",
-            "восемнадцать", "девятнадцать", "двадцать", "тридцать", "сорок",
-            "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто",
-            "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот",
-            "семьсот", "восемьсот", "девятьсот", "тысяча", "тысячи", "тысяч",
-            "")
-
-    val rusTranslate = listOf<Int>(1, 111, 2, 22, 3, 4, // дублирование rus
-            5, 6, 7, 8, 9, 10,
-            11, 12, 13,
-            14, 15, 16, 17,
-            18, 19, 20, 30, 40,
-            50, 60, 70, 80, 90,
-            100, 200, 300, 400, 500, 600,
-            700, 800, 900, 1000, 1001, 1002,
-            0)
-
-    while(m > 0){  // заполню лист разрядами (заполниться в обрантном порядке)
+    while (m > 0) {  // заполню лист разрядами (заполниться в обрантном порядке)
         val category = m % 10
         nToList.add(category)
         m /= 10
     }
-    while(nToList.size != 6){ // сделаю размер листа 6, заполню недостающее нулями
+    while (nToList.size != 6) { // сделаю размер листа 6, заполню недостающее нулями
         nToList.add(0)
     }
-    for ( i in  5 downTo 0 ){ //переверну лист, создав другой (рабочий)
+
+    for (i in 5 downTo 0) { //переверну лист, создав другой (рабочий)
         mToList.add(nToList[i])
     }
+/**
+ * Я решил перебирать число по разрядам, тоесть мое число имеет вид r1 r2 r3 r4 r5 r6 например 123456 r1 = 1, r2 = 2,
+ * r3 = 3, r4 = 4, r5 = 5, r6 = 6; я решил сравнивать каждый разряд на исключения, либо во when либо приписывать
+ * сразу значения. Для этого я создал fun russianAddition , при вызове которой с n, она преобразует n в буквенное
+ * значение согласно russianMap в этой функции. Аргументы составлял перебирая варианты которые могут быть, например:
+ * r1 всегда имеет значиния r1 * 100 где  100 to " сто", 200 to " двести", 300 to " триста", 400 to " четыреста",
+ * 500 to " пятьсот", 600 to " шестьсот",
+ * 700 to " семьсот", 800 to " восемьсот", 900 to " девятьсот" и т.д.  Так-же я каждый раз во when создавал переменные,
+ * значения, которых я мог сразу записать в стрин билдер, однако я этого не делал для более читабельности кода
+*/
+    val r1 = russianAddition(mToList[0] * 100) //r1
+    result.append(r1)
 
-    when { // начинаем сравнивать элементы списка
-        mToList[0] == 0 -> result += ""
+    when { //r2
+        mToList[1] == 1 && mToList[2] != 0 -> result.append("")  // в след. when
         else -> {
-            val index = rusTranslate.indexOf(mToList[0] * 100)
-            val first = rus[index]
-            result += "$first "
+            val r2 = russianAddition(mToList[1] * 10)
+            result.append(r2)
         }
     }
 
+    if (mToList[0] != 0 && mToList[2] == 0) // дополнение
+        result.append(" тысяч")
 
-    when {
-        mToList[1] == 0 -> result += ""
-        mToList[1] == 1 && mToList[2] != 0 -> result += ""  // в след. when
-        else -> {
-            val index = rusTranslate.indexOf(mToList[1] * 10)
-            val second = rus[index]
-            result += "$second "
-        }
-    }
-
-    if (mToList[0] != 0 && mToList[2] == 0)
-        result += "тысяч "
-
-    when {
-        mToList[2] == 0 -> result += ""
-
+    when { // r3
         mToList[1] == 1 && mToList[2] != 0 -> { // диапазаон 10..19
-            val res = mToList[1] * 10 + mToList[2]
-            val index = rusTranslate.indexOf(res)
-            val third = rus[index]
-            result += "$third "
+            val r3 = russianAddition(mToList[1] * 10 + mToList[2])
+            result.append(r3)
         }
-        else -> {
+        else -> {                                      // здесь исключения 102 000 (2 = две)
             val category = mToList[2]
             val declination = when (category) {
                 2 -> 22
                 1 -> 111
                 else -> mToList[2]
             }
-            val index = rusTranslate.indexOf(declination)
-            val third = rus[index]
-            result += "$third "
-
+            val r3 = russianAddition(declination)
+            result.append(r3)
         }
     }
 
-    val addition = when {
+    val addition = when { // дополнение после r3 105 ***тысяч 103 *** тысячи 101*** тысяча
         mToList[2] == 0 -> ""
-        mToList[2] == 1 && mToList[1] != 1 -> "тысяча "
-        mToList[2] in 2..4 && mToList[1] != 1 -> "тысячи "
-        else -> "тысяч "
+        mToList[2] == 1 && mToList[1] != 1 -> " тысяча"
+        mToList[2] in 2..4 && mToList[1] != 1 -> " тысячи"
+        else -> " тысяч"
     }
-    result += addition
+    result.append(addition)
 
-    when {
-        mToList[3] == 0 -> result += ""
+    when { // r4
+        mToList[3] == 0 -> result.append("")
         else -> {
-            val index = rusTranslate.indexOf(mToList[3] * 100)
-            val four = rus[index]
-            result += "$four "
+            val r4 = russianAddition(mToList[3] * 100)
+            result.append(r4)
         }
     }
 
-    when {
-        mToList[4] == 0 -> result += ""
+    when { //r5
+        mToList[4] == 0 -> result.append("")
         mToList[4] == 1 && mToList[5] != 0 -> {
-            val index = rusTranslate.indexOf(10 + mToList[5])
-            val five = rus[index]
-            result += "$five "
+            val r5 = russianAddition(10 + mToList[5])
+            result.append(r5)
         }
         else -> {
-            val index = rusTranslate.indexOf(mToList[4] * 10)
-            val five = rus[index]
-            result += "$five "
+            val r5 = russianAddition(mToList[4] * 10)
+            result.append(r5)
         }
     }
 
-    when {
-        mToList[5] == 0 -> result += ""
-        mToList[4] == 1 && mToList[5] != 0 -> result += ""
+    when { //r6
+        mToList[5] == 0 -> result.append("")
+        mToList[4] == 1 && mToList[5] != 0 -> result.append("")
         else -> {
-            val index = rusTranslate.indexOf(mToList[5])
-            val six = rus[index]
-            result += "$six "
+            val r6 = russianAddition(mToList[5])
+            result.append(r6)
         }
     }
 
