@@ -15,6 +15,13 @@ data class Point(val x: Double, val y: Double) {
     fun distance(other: Point): Double = Math.sqrt(sqr(x - other.x) + sqr(y - other.y))
 }
 
+fun main(args: Array<String>) {
+    val pointA = Point(3.0, 4.0)
+    val pointB = Point(0.0, 0.0)
+
+    println(pointA.distance(pointB))
+}
+
 /**
  * Треугольник, заданный тремя точками (a, b, c, см. constructor ниже).
  * Эти три точки хранятся в множестве points, их порядок не имеет значения.
@@ -72,7 +79,12 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        val dis = this.center.distance(other.center)
+        val sumRad = this.radius + other.radius
+        if (sumRad >= dis) return 0.0
+        return dis - sumRad
+    }
 
     /**
      * Тривиальная
