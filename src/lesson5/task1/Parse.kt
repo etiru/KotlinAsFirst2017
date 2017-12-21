@@ -67,21 +67,14 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    val parts = str.split(" ")
-    val monthMap: Map<String, String> = mapOf("января" to "01", "февраля" to "02", "марта" to "03", "апреля" to "04",
-            "мая" to "05", "июня" to "06", "июля" to "07", "августа" to "08", "сентября" to "09", "октября" to "10",
-            "ноября" to "11", "декабря" to "12")
-    if (parts.size == 3)
-        try {
-        val day = parts[0].toInt()
-        if ((parts[1] in monthMap) && day in 1..31) {
-            val month = monthMap[parts[1]]!!.toInt()
-            return String.format("%02d.%02d.%d", day, month, parts[2].toInt())
-        }
-    } catch (e: NumberFormatException) {
+    if (!str.matches(Regex("""^\d{1,2}\s[а-я]+\s\d{4}$""")))
         return ""
-    }
-    return ""
+    val dateList = str.split(" ")
+    val monthList = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
+            "сентября", "октября", "ноября", "декабря")
+    if (dateList[1] !in monthList)
+        return ""
+    return String.format("%02d.%02d.%d", dateList[0].toInt(), monthList.indexOf(dateList[1]) + 1, dateList[2].toInt())
 }
 /**
  * Средняя
@@ -91,21 +84,15 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    val parts = digital.split(".")
-    val monthList = mutableListOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
-            "сентября", "октября", "ноября", "декабря")
-
-    if (parts.size == 3) try {
-        val day = parts[0].toInt()
-        if ((parts[1].toInt() in 1..12) && day in 1..31) {
-            val month = monthList[parts[1].toInt() - 1]
-            return String.format("%d %s %d", day, month, parts[2].toInt())
-        }
-    } catch (e: NumberFormatException) {
+    if (!digital.matches(Regex("""^\d{1,2}\.\d{1,2}\.\d{4}$""")))
         return ""
-    }
-    return ""
-
+    val dateList = digital.split(".")
+    val monthList = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
+            "сентября", "октября", "ноября", "декабря")
+    if (dateList[1].toInt() !in 1..12)
+        return ""
+    val monthGet = monthList[dateList[1].toInt() - 1]
+    return String.format("%d %s %d", dateList[0].toInt(), monthGet, dateList[2].toInt())
 }
 
 /**
