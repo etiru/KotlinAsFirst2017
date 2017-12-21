@@ -41,22 +41,22 @@ fun timeSecondsToStr(seconds: Int): String {
 /**
  * Пример: консольный ввод
  */
-//fun main(args: Array<String>) {
-//    println("Введите время в формате ЧЧ:ММ:СС")
-//    val line = readLine()
-//    if (line != null) {
-//        val seconds = timeStrToSeconds(line)
-//        if (seconds == -1) {
-//            println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-//        }
-//        else {
-//            println("Прошло секунд с начала суток: $seconds")
-//        }
-//    }
-//    else {
-//        println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
-//    }
-//}
+fun main(args: Array<String>) {
+    println("Введите время в формате ЧЧ:ММ:СС")
+    val line = readLine()
+    if (line != null) {
+        val seconds = timeStrToSeconds(line)
+        if (seconds == -1) {
+            println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
+        }
+        else {
+            println("Прошло секунд с начала суток: $seconds")
+        }
+    }
+    else {
+        println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
+    }
+}
 
 /**
  * Средняя
@@ -261,15 +261,7 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int {
-    val romanMap = mapOf(1000 to "M", 900 to "CM", 500 to "D", 400 to "CD", 100 to "C", 90 to "XC",
-            50 to "L", 40 to "XL", 10 to "X", 9 to "IX", 5 to "V", 4 to "IV", 1 to "I")
-    val romanMap1 = mapOf("M" to 1000, "CM" to 900, "D" to 500, "CD" to 400, "C" to 100, "XC" to 90,
-            "L" to 50, "XL" to 40, "X" to 10, "IX" to 9, "V" to 5, "IV" to 4, "I" to 1)
-
-
-
-}
+fun fromRoman(roman: String): Int = TODO()
 
 /**
  * Очень сложная
