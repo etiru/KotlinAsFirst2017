@@ -67,7 +67,7 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    if (!str.matches(Regex("""^\d{1,2}\s[а-я]+\s\d{4}$""")))
+    if (!str.matches(Regex("""^\d{1,2}\s[а-я]+\s[\d]\d{3}""")))
         return ""
     val dateList = str.split(" ")
     val monthList = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
@@ -84,7 +84,7 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    if (!digital.matches(Regex("""^\d{1,2}\.\d{1,2}\.\d{4}$""")))
+    if (!digital.matches(Regex("""^\d{1,2}\.\d{1,2}\.[\d]\d{3}""")))
         return ""
     val dateList = digital.split(".")
     val monthList = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
