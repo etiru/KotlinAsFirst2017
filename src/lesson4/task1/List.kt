@@ -344,115 +344,130 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russianAddition(n: Int): String {
-    val russianMap: Map<Int, String> = mapOf(1 to " один", 111 to " одна", 2 to " два", 22 to " две", 3 to " три",
-            4 to " четыре", 5 to " пять", 6 to " шесть", 7 to " семь", 8 to " восемь", 9 to " девять", 10 to " десять",
-            11 to " одиннадцать", 12 to " двенадцать", 13 to " тринадцать", 14 to " четырнадцать", 15 to " пятнадцать",
-            16 to " шестнадцать", 17 to " семнадцать", 18 to " восемнадцать", 19 to " девятнадцать", 20 to " двадцать",
-            30 to " тридцать", 40 to " сорок", 50 to " пятьдесят", 60 to " шестьдесят", 70 to " семьдесят",
-            80 to " восемьдесят", 90 to " девяносто", 100 to " сто", 200 to " двести", 300 to " триста",
-            400 to " четыреста", 500 to " пятьсот", 600 to " шестьсот", 700 to " семьсот", 800 to " восемьсот",
-            900 to " девятьсот", 1000 to " тысяча", 1001 to " тысячи", 1002 to " тысяч", 0 to "")
 
-    val index = russianMap.get(n)
-    return "$index"
-}
 
-fun russian(n: Int): CharSequence {
-    val nToList = mutableListOf<Int>()
-    val mToList = mutableListOf<Int>()
-    var m = n
-    val result = StringBuilder()
 
-    while (m > 0) {  // заполню лист разрядами (заполниться в обрантном порядке)
-        val category = m % 10
-        nToList.add(category)
-        m /= 10
+
+
+fun main(args: Array<String>) = 1
+
+
+    /**
+     * Очень сложная
+     *
+     * Записать заданное натуральное число 1..999999 прописью по-русски.
+     * Например, 375 = "триста семьдесят пять",
+     * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
+     */
+    fun russianAddition(n: Int): String {
+        val russianMap: Map<Int, String> = mapOf(1 to " один", 111 to " одна", 2 to " два", 22 to " две", 3 to " три",
+                4 to " четыре", 5 to " пять", 6 to " шесть", 7 to " семь", 8 to " восемь", 9 to " девять", 10 to " десять",
+                11 to " одиннадцать", 12 to " двенадцать", 13 to " тринадцать", 14 to " четырнадцать", 15 to " пятнадцать",
+                16 to " шестнадцать", 17 to " семнадцать", 18 to " восемнадцать", 19 to " девятнадцать", 20 to " двадцать",
+                30 to " тридцать", 40 to " сорок", 50 to " пятьдесят", 60 to " шестьдесят", 70 to " семьдесят",
+                80 to " восемьдесят", 90 to " девяносто", 100 to " сто", 200 to " двести", 300 to " триста",
+                400 to " четыреста", 500 to " пятьсот", 600 to " шестьсот", 700 to " семьсот", 800 to " восемьсот",
+                900 to " девятьсот", 1000 to " тысяча", 1001 to " тысячи", 1002 to " тысяч", 0 to "")
+
+        val index = russianMap.get(n)
+        return "$index"
     }
-    while (nToList.size != 6) { // сделаю размер листа 6, заполню недостающее нулями
-        nToList.add(0)
-    }
 
-    for (i in 5 downTo 0) { //переверну лист, создав другой (рабочий)
-        mToList.add(nToList[i])
-    }
-/**
- * Я решил перебирать число по разрядам, тоесть мое число имеет вид r1 r2 r3 r4 r5 r6 например 123456 r1 = 1, r2 = 2,
- * r3 = 3, r4 = 4, r5 = 5, r6 = 6; я решил сравнивать каждый разряд на исключения, либо во when либо приписывать
- * сразу значения. Для этого я создал fun russianAddition , при вызове которой с n, она преобразует n в буквенное
- * значение согласно russianMap в этой функции. Аргументы составлял перебирая варианты которые могут быть, например:
- * r1 всегда имеет значиния r1 * 100 где  100 to " сто", 200 to " двести", 300 to " триста", 400 to " четыреста",
- * 500 to " пятьсот", 600 to " шестьсот",
- * 700 to " семьсот", 800 to " восемьсот", 900 to " девятьсот" и т.д.  Так-же я каждый раз во when создавал переменные,
- * значения, которых я мог сразу записать в стрин билдер, однако я этого не делал для более читабельности кода
-*/
-    val r1 = russianAddition(mToList[0] * 100) //r1
-    result.append(r1)
+    fun russian(n: Int): CharSequence {
+        val nToList = mutableListOf<Int>()
+        val mToList = mutableListOf<Int>()
+        var m = n
+        val result = StringBuilder()
 
-    when { //r2
-        mToList[1] == 1 && mToList[2] != 0 -> result.append("")  // в след. when
-        else -> {
-            val r2 = russianAddition(mToList[1] * 10)
-            result.append(r2)
+        while (m > 0) {  // заполню лист разрядами (заполниться в обрантном порядке)
+            val category = m % 10
+            nToList.add(category)
+            m /= 10
         }
-    }
-
-    if (mToList[0] != 0 && mToList[2] == 0) // дополнение
-        result.append(" тысяч")
-
-    when { // r3
-        mToList[1] == 1 && mToList[2] != 0 -> { // диапазаон 10..19
-            val r3 = russianAddition(mToList[1] * 10 + mToList[2])
-            result.append(r3)
+        while (nToList.size != 6) { // сделаю размер листа 6, заполню недостающее нулями
+            nToList.add(0)
         }
-        else -> {                                      // здесь исключения 102 000 (2 = две)
-            val category = mToList[2]
-            val declination = when (category) {
-                2 -> 22
-                1 -> 111
-                else -> mToList[2]
+
+        for (i in 5 downTo 0) { //переверну лист, создав другой (рабочий)
+            mToList.add(nToList[i])
+        }
+        /**
+         * Я решил перебирать число по разрядам, тоесть мое число имеет вид r1 r2 r3 r4 r5 r6 например 123456 r1 = 1, r2 = 2,
+         * r3 = 3, r4 = 4, r5 = 5, r6 = 6; я решил сравнивать каждый разряд на исключения, либо во when либо приписывать
+         * сразу значения. Для этого я создал fun russianAddition , при вызове которой с n, она преобразует n в буквенное
+         * значение согласно russianMap в этой функции. Аргументы составлял перебирая варианты которые могут быть, например:
+         * r1 всегда имеет значиния r1 * 100 где  100 to " сто", 200 to " двести", 300 to " триста", 400 to " четыреста",
+         * 500 to " пятьсот", 600 to " шестьсот",
+         * 700 to " семьсот", 800 to " восемьсот", 900 to " девятьсот" и т.д.  Так-же я каждый раз во when создавал переменные,
+         * значения, которых я мог сразу записать в стрин билдер, однако я этого не делал для более читабельности кода
+         */
+        val r1 = russianAddition(mToList[0] * 100) //r1
+        result.append(r1)
+
+        when { //r2
+            mToList[1] == 1 && mToList[2] != 0 -> result.append("")  // в след. when
+            else -> {
+                val r2 = russianAddition(mToList[1] * 10)
+                result.append(r2)
             }
-            val r3 = russianAddition(declination)
-            result.append(r3)
         }
-    }
 
-    val addition = when { // дополнение после r3 105 ***тысяч 103 *** тысячи 101*** тысяча
-        mToList[2] == 0 -> ""
-        mToList[2] == 1 && mToList[1] != 1 -> " тысяча"
-        mToList[2] in 2..4 && mToList[1] != 1 -> " тысячи"
-        else -> " тысяч"
-    }
-    result.append(addition)
+        if (mToList[0] != 0 && mToList[2] == 0) // дополнение
+            result.append(" тысяч")
 
-    when { // r4
-        mToList[3] == 0 -> result.append("")
-        else -> {
-            val r4 = russianAddition(mToList[3] * 100)
-            result.append(r4)
+        when { // r3
+            mToList[1] == 1 && mToList[2] != 0 -> { // диапазаон 10..19
+                val r3 = russianAddition(mToList[1] * 10 + mToList[2])
+                result.append(r3)
+            }
+            else -> {                                      // здесь исключения 102 000 (2 = две)
+                val category = mToList[2]
+                val declination = when (category) {
+                    2 -> 22
+                    1 -> 111
+                    else -> mToList[2]
+                }
+                val r3 = russianAddition(declination)
+                result.append(r3)
+            }
         }
-    }
 
-    when { //r5
-        mToList[4] == 0 -> result.append("")
-        mToList[4] == 1 && mToList[5] != 0 -> {
-            val r5 = russianAddition(10 + mToList[5])
-            result.append(r5)
+        val addition = when { // дополнение после r3 105 ***тысяч 103 *** тысячи 101*** тысяча
+            mToList[2] == 0 -> ""
+            mToList[2] == 1 && mToList[1] != 1 -> " тысяча"
+            mToList[2] in 2..4 && mToList[1] != 1 -> " тысячи"
+            else -> " тысяч"
         }
-        else -> {
-            val r5 = russianAddition(mToList[4] * 10)
-            result.append(r5)
-        }
-    }
+        result.append(addition)
 
-    when { //r6
-        mToList[5] == 0 -> result.append("")
-        mToList[4] == 1 && mToList[5] != 0 -> result.append("")
-        else -> {
-            val r6 = russianAddition(mToList[5])
-            result.append(r6)
+        when { // r4
+            mToList[3] == 0 -> result.append("")
+            else -> {
+                val r4 = russianAddition(mToList[3] * 100)
+                result.append(r4)
+            }
         }
-    }
 
-    return result.trim()
-}
+        when { //r5
+            mToList[4] == 0 -> result.append("")
+            mToList[4] == 1 && mToList[5] != 0 -> {
+                val r5 = russianAddition(10 + mToList[5])
+                result.append(r5)
+            }
+            else -> {
+                val r5 = russianAddition(mToList[4] * 10)
+                result.append(r5)
+            }
+        }
+
+        when { //r6
+            mToList[5] == 0 -> result.append("")
+            mToList[4] == 1 && mToList[5] != 0 -> result.append("")
+            else -> {
+                val r6 = russianAddition(mToList[5])
+                result.append(r6)
+            }
+        }
+
+        return result.trim()
+    }
